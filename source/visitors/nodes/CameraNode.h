@@ -5,15 +5,35 @@
 #ifndef VX_EMBER_CAMERANODE_H
 #define VX_EMBER_CAMERANODE_H
 
-#include "Node.h"
+#include "SpatialNode.h"
+#include "StructStringBuilder.h"
+#include <glm/mat4x4.hpp>
 
 namespace vx::ember {
 
     class NodeVisitor;
 
-    class CameraNode : public Node {
+    class CameraNode : public SpatialNode {
+        bool _active = false;
+        float _fov;
+        float _far;
+        float _near;
+
     public:
+        CameraNode(float fov, float far, float near);
+
+        [[nodiscard]] bool active() const;
+        [[nodiscard]] glm::mat4 projection(float aspect) const;
+
+        void setActive(bool active);
+
         void accept(NodeVisitor &visitor) override;
+
+        explicit operator std::string() const {
+            return StructStringBuilder("CameraNode")
+                    .addField("active", _active)
+                    .build();
+        }
     };
 
 }

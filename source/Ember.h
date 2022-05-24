@@ -7,26 +7,29 @@
 
 #include <vector>
 #include "passes/Pass.h"
+#include "visitors/nodes/Node.h"
 #include <memory>
 
 namespace vx::ember {
 
     class Ember {
-        std::vector<std::unique_ptr<Pass>> _passes;
-
-        void addPassInternal(Pass *pass);
+        std::vector<std::shared_ptr<Pass>> _passes;
+        std::unique_ptr<Node> _root;
 
     public:
-        template<typename T>
-        T &addPass(T pass) {
-            T *ptr = new T(pass);
-            addPassInternal(ptr);
-            return *ptr;
-        }
+        Ember();
+
+        void addPass(std::shared_ptr<Pass> pass);
 
         void initialize();
 
         void render();
+
+        void resize(int width, int height);
+
+        void deinitialize();
+
+        Node& root();
     };
 
 }

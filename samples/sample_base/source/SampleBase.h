@@ -11,10 +11,15 @@
 class SampleBase {
     GLFWwindow *window;
     bool _running = true;
+    int _width, _height;
 
     virtual void initialize() = 0;
 
     virtual void mainLoop() = 0;
+
+    virtual void resize(int width, int height) = 0;
+
+    virtual void deinitialize() = 0;
 
 public:
     SampleBase(int width, int height, const char *name);

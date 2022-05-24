@@ -8,12 +8,19 @@
 namespace vx::ember {
 
     class CameraNode;
+    class SpatialNode;
+    class Node;
+    class GeometryNode;
 
     class NodeVisitor {
+    protected:
     public:
+        void traverse(Node &node);
         virtual void visit(CameraNode &cameraNode) = 0;
+        virtual void visit(SpatialNode &spatialNode) = 0;
+        virtual void visit(Node &node) = 0;
+        virtual void visit(GeometryNode &geometryNode) = 0;
     };
-
 }
 
 #endif //VX_EMBER_NODEVISITOR_H
