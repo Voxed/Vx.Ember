@@ -24,6 +24,6 @@ glm::mat4 CameraNode::projection(float aspect) const {
     return glm::perspective(_fov, aspect, _near, _far);
 }
 
-CameraNode::CameraNode(float fov, float far, float near) : _fov(fov), _far(far), _near(near) {
+CameraNode::CameraNode(float fov, float far, float near, std::string name) : SpatialNode(name), _fov(fov), _far(far), _near(near) {
 }
 

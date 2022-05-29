@@ -20,7 +20,7 @@ namespace vx::ember {
         float _near;
 
     public:
-        CameraNode(float fov, float far, float near);
+        CameraNode(float fov, float far, float near, std::string name = "CameraNode");
 
         [[nodiscard]] bool active() const;
         [[nodiscard]] glm::mat4 projection(float aspect) const;
@@ -34,6 +34,8 @@ namespace vx::ember {
                     .addField("active", _active)
                     .build();
         }
+
+        friend ImGuiTreeViewVisitor;
     };
 
 }

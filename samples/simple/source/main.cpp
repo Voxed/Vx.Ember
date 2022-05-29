@@ -12,6 +12,8 @@
 #include "passes/MatrixUpdatePass.h"
 #include "passes/PresentationPass.h"
 #include "imgui.h"
+#include "gltf/GLTFLoader.h"
+#include "passes/DebugImGuiPass.h"
 #include <OBJ_Loader.h>
 
 using namespace vx::ember;
@@ -32,6 +34,8 @@ class Simple : public SampleBase {
         ember->addPass(geoPass);
         presentationPass = std::make_shared<PresentationPass>();
         ember->addPass(presentationPass);
+
+        ember->addPass(std::make_shared<DebugImGuiPass>());
         ember->initialize();
     }
 
@@ -63,18 +67,30 @@ class Simple : public SampleBase {
             suzanne = std::make_shared<Mesh>(std::vector<std::shared_ptr<Primitive>>{prim});
         }
 
-        geo = std::make_shared<GeometryNode>(suzanne);
+        std::shared_ptr<Node> scene;
+        {
+            GLTFLoader loader("assets/complex.gltf");
+            scene = loader.scene();
+        }
+        std::static_pointer_cast<CameraNode>(
+                scene->findChild("Empty.002")[0]->findChild("Camera")[0]->findChild("Camera_Orientation")[0]->findChild(
+                        "Camera")[0])->setActive(true);
+
+        ember->root().addChild(scene);
+
+        geo = std::make_shared<GeometryNode>(suzanne, "suzanne");
 
         cam = std::make_shared<CameraNode>(70.0f, 1000.0f, 0.01f);
         auto group = std::make_shared<SpatialNode>();
         group->rotate(glm::vec3(0, 0, 0.0f));
         group->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-        group->addChild(geo);
+        //group->addChild(geo);
         ember->root().addChild(group);
 
         ember->root().addChild(cam);
 
-        cam->setActive(true);
+        cam->setActive(false);
+        cam->setPosition(glm::vec3(0.0, 0.0, 3.35f));
     }
 
     void mainLoop() override {
@@ -83,7 +99,7 @@ class Simple : public SampleBase {
 
         const char *items[] = {"Normal Buffer", "Position Buffer", "Depth Buffer"};
         static const char *current_item = "Normal Buffer";
-        if (ImGui::BeginCombo("##combo",
+        if (ImGui::BeginCombo("Present",
                               current_item)) {
             for (auto &item: items) {
                 bool is_selected = (current_item ==
@@ -94,6 +110,7 @@ class Simple : public SampleBase {
             }
             ImGui::EndCombo();
         }
+        ImGui::End();
 
 
         if (strcmp(current_item, "Normal Buffer") == 0) {
@@ -107,10 +124,6 @@ class Simple : public SampleBase {
         }
 
         ember->render();
-        geo->setPosition(glm::vec3(0.0, 0, 0.0f));
-        cam->setPosition(glm::vec3(0.0, 0.0, 3.35f));
-        ImGui::End();
-
     }
 
     void resize(int width, int height) override {
@@ -122,7 +135,7 @@ class Simple : public SampleBase {
     }
 
 public:
-    Simple() : SampleBase(640, 480, "Simple Sample") {}
+    Simple() : SampleBase(1280, 960, "Simple Sample") {}
 
 };
 

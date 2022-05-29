@@ -41,11 +41,10 @@ void GeometryPass::render(Node &root) {
     root.accept(cameraLocator);
 
     if (cameraLocator.camera()) {
-        std::string str = static_cast<std::string>(*cameraLocator.camera());
+        _program->setViewMatrix(glm::inverse(cameraLocator.camera()->worldMatrix() * cameraLocator.camera()->matrix()));
+        _program->setProjectionMatrix(cameraLocator.camera()->projection((float) _width / (float) _height));
     }
 
-    _program->setViewMatrix(glm::inverse(cameraLocator.camera()->worldMatrix() * cameraLocator.camera()->matrix()));
-    _program->setProjectionMatrix(cameraLocator.camera()->projection((float) _width / (float) _height));
 
     glEnable(GL_DEPTH_TEST);
 
@@ -90,7 +89,7 @@ void GeometryPass::resize(int width, int height) {
     //bind texture as colour attachment
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, normalBuffer, 0);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, positionBuffer, 0);
-    std::vector<GLuint> drawBuffers {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
+    std::vector<GLuint> drawBuffers{GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
     glDrawBuffers(2, drawBuffers.data());
     //bind the texture as depth attchment
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthBuffer, 0);

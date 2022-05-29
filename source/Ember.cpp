@@ -7,7 +7,7 @@
 using namespace vx::ember;
 
 Ember::Ember() {
-    _root = std::make_unique<Node>();
+    _root = std::make_unique<Node>("root");
 }
 
 void Ember::initialize() {

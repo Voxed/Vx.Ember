@@ -13,18 +13,26 @@ namespace vx::ember {
 
     class NodeVisitor;
     class WorldMatrixUpdateVisitor;
+    class ImGuiTreeViewVisitor;
+    class CameraLocatorVisitor;
 
     class SpatialNode : public Node {
     protected:
         glm::vec3 _position = glm::vec3(0.0);
         glm::quat _rotation = glm::quat(1, 0, 0, 0);
+        glm::vec3 _scale = glm::vec3 (1.0);
         glm::mat4 _worldMatrix = glm::mat4(1.0);
 
     public:
+        explicit SpatialNode(std::string name = "SpatialNode");
+
         void accept(NodeVisitor &visitor) override;
 
         glm::vec3 position();
         void setPosition(glm::vec3 position);
+
+        glm::vec3 scale();
+        void setScale(glm::vec3 scale);
 
         glm::quat rotation();
         void setRotation(glm::quat rotation);
@@ -35,6 +43,7 @@ namespace vx::ember {
         glm::mat4 worldMatrix();
 
         friend WorldMatrixUpdateVisitor;
+        friend ImGuiTreeViewVisitor;
     };
 
 }

@@ -15,17 +15,17 @@ WorldMatrixUpdateVisitor::WorldMatrixUpdateVisitor(glm::mat4 worldMatrix) : _wor
 
 void WorldMatrixUpdateVisitor::visit(CameraNode &cameraNode) {
     cameraNode._worldMatrix = _worldMatrix;
-    WorldMatrixUpdateVisitor(cameraNode.matrix() * _worldMatrix).traverse(cameraNode);
+    WorldMatrixUpdateVisitor(_worldMatrix * cameraNode.matrix()).traverse(cameraNode);
 }
 
 void WorldMatrixUpdateVisitor::visit(SpatialNode &spatialNode) {
     spatialNode._worldMatrix = _worldMatrix;
-    WorldMatrixUpdateVisitor(spatialNode.matrix() * _worldMatrix).traverse(spatialNode);
+    WorldMatrixUpdateVisitor(_worldMatrix * spatialNode.matrix()).traverse(spatialNode);
 }
 
 void WorldMatrixUpdateVisitor::visit(GeometryNode &geometryNode) {
     geometryNode._worldMatrix = _worldMatrix;
-    WorldMatrixUpdateVisitor(geometryNode.matrix() * _worldMatrix).traverse(geometryNode);
+    WorldMatrixUpdateVisitor(_worldMatrix * geometryNode.matrix()).traverse(geometryNode);
 }
 
 WorldMatrixUpdateVisitor::WorldMatrixUpdateVisitor() : _worldMatrix(1.0) {

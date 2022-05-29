@@ -9,7 +9,7 @@
 
 using namespace vx::ember;
 
-GeometryNode::GeometryNode(std::shared_ptr<Mesh> mesh) : _mesh(std::move(mesh)) {
+GeometryNode::GeometryNode(std::shared_ptr<Mesh> mesh, std::string name) : SpatialNode(name), _mesh(std::move(mesh)) {
 
 }
 

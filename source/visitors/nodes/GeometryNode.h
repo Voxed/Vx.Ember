@@ -14,7 +14,7 @@ namespace vx::ember {
     class GeometryNode : public SpatialNode {
         std::shared_ptr<Mesh> _mesh;
     public:
-        explicit GeometryNode(std::shared_ptr<Mesh> mesh);
+        explicit GeometryNode(std::shared_ptr<Mesh> mesh, std::string name = "GeometryNode");
 
         std::shared_ptr<Mesh> mesh();
 
@@ -25,6 +25,8 @@ namespace vx::ember {
                     .addField("mesh", *_mesh)
                     .build();
         }
+
+        friend ImGuiTreeViewVisitor;
     };
 
 }
