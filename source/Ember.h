@@ -5,33 +5,33 @@
 #ifndef VX_EMBER_EMBER_H
 #define VX_EMBER_EMBER_H
 
-#include <vector>
 #include "passes/Pass.h"
 #include "visitors/nodes/Node.h"
 #include <memory>
+#include <vector>
 
 namespace vx::ember {
 
-    class Ember {
-        std::vector<std::shared_ptr<Pass>> _passes;
-        std::unique_ptr<Node> _root;
+class Ember {
+    std::vector<std::shared_ptr<Pass>> _passes;
+    std::unique_ptr<Node> _root;
 
-    public:
-        Ember();
+public:
+    Ember();
 
-        void addPass(std::shared_ptr<Pass> pass);
+    void addPass(std::shared_ptr<Pass> pass);
 
-        void initialize();
+    void initialize();
 
-        void render();
+    void render();
 
-        void resize(int width, int height);
+    void resize(int width, int height);
 
-        void deinitialize();
+    void deinitialize();
 
-        Node& root();
-    };
+    Node& root();
+};
 
 }
 
-#endif //VX_EMBER_EMBER_H
+#endif // VX_EMBER_EMBER_H

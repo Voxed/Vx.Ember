@@ -11,33 +11,37 @@
 
 namespace vx::ember {
 
-    class NodeVisitor;
+class NodeVisitor;
 
-    class CameraNode : public SpatialNode {
-        bool _active = false;
-        float _fov;
-        float _far;
-        float _near;
+struct Perspective {
+    float fov;
+    float near;
+    float far;
+};
 
-    public:
-        CameraNode(float fov, float far, float near, std::string name = "CameraNode");
+class CameraNode : public SpatialNode {
+    bool _active = false;
+    Perspective _perspective;
 
-        [[nodiscard]] bool active() const;
-        [[nodiscard]] glm::mat4 projection(float aspect) const;
+public:
+    explicit CameraNode(
+        Perspective perspective, std::string name = "CameraNode");
 
-        void setActive(bool active);
+    [[nodiscard]] glm::mat4 projection(float aspect) const;
 
-        void accept(NodeVisitor &visitor) override;
+    [[nodiscard]] bool active() const;
 
-        explicit operator std::string() const {
-            return StructStringBuilder("CameraNode")
-                    .addField("active", _active)
-                    .build();
-        }
+    void setActive(bool active);
 
-        friend ImGuiTreeViewVisitor;
-    };
+    [[nodiscard]] Perspective perspective() const;
+
+    void setPerspective(Perspective perspective);
+
+    void accept(NodeVisitor& visitor) override;
+
+    glm::mat4 viewMatrix();
+};
 
 }
 
-#endif //VX_EMBER_CAMERANODE_H
+#endif // VX_EMBER_CAMERANODE_H

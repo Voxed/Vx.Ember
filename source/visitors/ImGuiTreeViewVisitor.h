@@ -5,33 +5,33 @@
 #ifndef VX_EMBER_IMGUITREEVIEWVISITOR_H
 #define VX_EMBER_IMGUITREEVIEWVISITOR_H
 
-
 #include "NodeVisitor.h"
 
 #include <memory>
 
 namespace vx::ember {
 
-    class ImGuiTreeViewVisitor : public NodeVisitor {
-        static void parametersSpatialNode(SpatialNode& node);
-        static void parametersCameraNode(CameraNode& node);
-        static void parametersGeometryNode(GeometryNode& node);
+class ImGuiTreeViewVisitor : public NodeVisitor {
+    static void parametersSpatialNode(SpatialNode& node);
+    static void parametersCameraNode(CameraNode& node);
+    static void parametersGeometryNode(GeometryNode& node);
+    static void parametersPointLightNode(PointLightNode& node);
 
-        bool imGuiTreeTraverseBegin(Node& node, const std::string& type);
-        void imGuiTreeTraverseEnd(Node& node);
+    bool imGuiTreeTraverseBegin(Node& node, const std::string& type);
+    void imGuiTreeTraverseEnd(Node& node);
 
-    public:
+public:
+    void visit(CameraNode& cameraNode) override;
 
-        void visit(CameraNode &cameraNode) override;
+    void visit(SpatialNode& spatialNode) override;
 
-        void visit(SpatialNode &spatialNode) override;
+    void visit(Node& node) override;
 
-        void visit(Node &node) override;
+    void visit(GeometryNode& geometryNode) override;
 
-        void visit(GeometryNode &geometryNode) override;
-    };
+    void visit(PointLightNode& pointLightNode) override;
+};
 
 }
 
-
-#endif //VX_EMBER_IMGUITREEVIEWVISITOR_H
+#endif // VX_EMBER_IMGUITREEVIEWVISITOR_H

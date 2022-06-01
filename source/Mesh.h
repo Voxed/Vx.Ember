@@ -5,27 +5,27 @@
 #ifndef VX_EMBER_MESH_H
 #define VX_EMBER_MESH_H
 
-#include <vector>
 #include "Primitive.h"
 #include <memory>
+#include <vector>
 
 namespace vx::ember {
 
-    class Program;
+class Program;
 
-    class Mesh {
-        std::vector<std::shared_ptr<Primitive>> _primitives;
+class Mesh {
+    std::vector<std::shared_ptr<Primitive>> _primitives;
 
-    public:
-        explicit Mesh(std::vector<std::shared_ptr<Primitive>> primitives);
+public:
+    explicit Mesh(std::vector<std::shared_ptr<Primitive>> primitives);
 
-        std::span<std::shared_ptr<Primitive>> primitives();
+    std::span<std::shared_ptr<Primitive>> primitives();
 
-        explicit operator std::string() const {
-            return "Mesh <" + std::to_string(_primitives.size()) + ">";
-        }
-    };
+    explicit operator std::string() const {
+        return "Mesh <" + std::to_string(_primitives.size()) + ">";
+    }
+};
 
 }
 
-#endif //VX_EMBER_MESH_H
+#endif // VX_EMBER_MESH_H

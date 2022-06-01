@@ -9,16 +9,16 @@
 
 namespace vx::ember {
 
-    class DebugImGuiPass : public Pass {
-        void initialize() override;
+class DebugImGuiPass : public Pass {
+    void initialize() override;
 
-        void render(Node &root) override;
+    void render(Node& root) override;
 
-        void resize(int width, int height) override;
+    void resize(int width, int height) override;
 
-        void deinitialize() override;
-    };
+    void deinitialize() override;
+};
 
 }
 
-#endif //VX_EMBER_DEBUGIMGUIPASS_H
+#endif // VX_EMBER_DEBUGIMGUIPASS_H

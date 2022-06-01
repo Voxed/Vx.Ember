@@ -5,31 +5,24 @@
 #ifndef VX_EMBER_GEOMETRYNODE_H
 #define VX_EMBER_GEOMETRYNODE_H
 
-#include "SpatialNode.h"
 #include "Mesh.h"
+#include "SpatialNode.h"
 #include "StructStringBuilder.h"
 
 namespace vx::ember {
 
-    class GeometryNode : public SpatialNode {
-        std::shared_ptr<Mesh> _mesh;
-    public:
-        explicit GeometryNode(std::shared_ptr<Mesh> mesh, std::string name = "GeometryNode");
+class GeometryNode : public SpatialNode {
+    std::shared_ptr<Mesh> _mesh;
 
-        std::shared_ptr<Mesh> mesh();
+public:
+    explicit GeometryNode(
+        std::shared_ptr<Mesh> mesh, std::string name = "GeometryNode");
 
-        void accept(NodeVisitor &visitor) override;
+    std::shared_ptr<Mesh> mesh();
 
-        explicit operator std::string() const {
-            return StructStringBuilder("GeometryNode")
-                    .addField("mesh", *_mesh)
-                    .build();
-        }
-
-        friend ImGuiTreeViewVisitor;
-    };
+    void accept(NodeVisitor& visitor) override;
+};
 
 }
 
-
-#endif //VX_EMBER_GEOMETRYNODE_H
+#endif // VX_EMBER_GEOMETRYNODE_H

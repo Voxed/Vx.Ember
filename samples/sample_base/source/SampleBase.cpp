@@ -2,13 +2,15 @@
 // Created by voxed on 5/20/22.
 //
 
-#include <cstdio>
 #include "SampleBase.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include <cstdio>
 
-SampleBase::SampleBase(int width, int height, const char *name) : _width(width), _height(height) {
+SampleBase::SampleBase(int width, int height, const char* name)
+    : _width(width)
+    , _height(height) {
     glfwInit();
 
     window = glfwCreateWindow(width, height, name, nullptr, nullptr);
@@ -17,8 +19,8 @@ SampleBase::SampleBase(int width, int height, const char *name) : _width(width),
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void) io;
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
@@ -28,16 +30,18 @@ SampleBase::SampleBase(int width, int height, const char *name) : _width(width),
 
     glfwSwapInterval(1);
 
-    glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
-        glViewport(0,0,width,height);
-        auto* sampleBase = static_cast<SampleBase *>(glfwGetWindowUserPointer(window));
-        sampleBase->resize(width, height);
-    });
+    glfwSetWindowSizeCallback(
+        window, [](GLFWwindow* window, int width, int height) {
+            glViewport(0, 0, width, height);
+            auto* sampleBase
+                = static_cast<SampleBase*>(glfwGetWindowUserPointer(window));
+            sampleBase->_height = height;
+            sampleBase->_width = width;
+            sampleBase->resize(width, height);
+        });
 }
 
-void SampleBase::exit() {
-    _running = false;
-}
+void SampleBase::exit() { _running = false; }
 
 void SampleBase::start() {
     initialize();
@@ -53,6 +57,7 @@ void SampleBase::start() {
 
         ImGui::Render();
 
+        glViewport(0, 0, _width, _height);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(window);

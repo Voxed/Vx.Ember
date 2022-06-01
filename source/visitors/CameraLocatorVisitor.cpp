@@ -6,14 +6,12 @@
 
 namespace vx::ember {
 
-    void CameraLocatorVisitor::visit(vx::ember::CameraNode &cameraNode) {
-        if(cameraNode.active())
-            _camera = &cameraNode;
-        traverse(cameraNode);
-    }
+void CameraLocatorVisitor::visit(vx::ember::CameraNode& cameraNode) {
+    if (cameraNode.active())
+        _camera = &cameraNode;
+    traverse(cameraNode);
+}
 
-    CameraNode* CameraLocatorVisitor::camera() {
-        return _camera;
-    }
+CameraNode* CameraLocatorVisitor::camera() { return _camera; }
 
 }

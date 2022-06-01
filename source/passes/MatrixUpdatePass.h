@@ -9,18 +9,17 @@
 
 namespace vx::ember {
 
-    class MatrixUpdatePass : public Pass {
-    public:
-        void initialize() override;
+class MatrixUpdatePass : public Pass {
+public:
+    void initialize() override;
 
-        void render(Node& root) override;
+    void render(Node& root) override;
 
-        void resize(int width, int height) override;
+    void resize(int width, int height) override;
 
-        void deinitialize() override;
-    };
+    void deinitialize() override;
+};
 
 }
 
-
-#endif //VX_EMBER_MATRIXUPDATEPASS_H
+#endif // VX_EMBER_MATRIXUPDATEPASS_H

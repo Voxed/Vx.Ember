@@ -9,7 +9,7 @@
 #include <GLFW/glfw3.h>
 
 class SampleBase {
-    GLFWwindow *window;
+    GLFWwindow* window;
     bool _running = true;
     int _width, _height;
 
@@ -22,12 +22,11 @@ class SampleBase {
     virtual void deinitialize() = 0;
 
 public:
-    SampleBase(int width, int height, const char *name);
+    SampleBase(int width, int height, const char* name);
 
     void exit();
 
     void start();
 };
 
-
-#endif //VX_EMBER_SAMPLEBASE_H
+#endif // VX_EMBER_SAMPLEBASE_H

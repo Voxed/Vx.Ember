@@ -7,10 +7,10 @@
 
 namespace vx::ember {
 
-    void NodeVisitor::traverse(vx::ember::Node &node) {
-        for(auto const& c : node.children()) {
-            c->accept(*this);
-        }
+void NodeVisitor::traverse(vx::ember::Node& node) {
+    for (auto const& c : node.children()) {
+        c->accept(*this);
     }
+}
 
 }

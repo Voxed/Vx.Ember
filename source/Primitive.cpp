@@ -3,54 +3,48 @@
 //
 
 #include "Primitive.h"
-#include "Program.h"
+#include "gl/Program.h"
 
 #include <utility>
 
 using namespace vx::ember;
 
-std::span<glm::vec3> Primitive::vertices() {
-    return _vertices;
-}
+std::span<glm::vec3> Primitive::vertices() { return _vertices; }
 
-std::span<glm::vec3> Primitive::normals() {
-    return _normals;
-}
+std::span<glm::vec3> Primitive::normals() { return _normals; }
 
-std::span<unsigned int> Primitive::indices() {
-    return _indices;
-}
+std::span<unsigned int> Primitive::indices() { return _indices; }
 
-Primitive::Primitive(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,
-                     std::vector<unsigned int> indices) : _vertices(std::move(vertices)), _normals(std::move(normals)),
-                                                          _indices(std::move(indices)) {
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
+Primitive::Primitive(std::vector<glm::vec3> vertices,
+    std::vector<glm::vec3> normals, std::vector<unsigned int> indices)
+    : _vertices(std::move(vertices))
+    , _normals(std::move(normals))
+    , _indices(std::move(indices)) {
+    _vao = VertexArrayObject();
 
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3)*_vertices.size(), _vertices.data(), GL_STATIC_DRAW);
+    _vbo = BufferObject(sizeof(glm::vec3) * _vertices.size(), GL_MAP_WRITE_BIT,
+        _vertices.data());
+    _vao->enableVertexArrayAttrib(PositionLayoutPosition);
+    _vao->attribFormat(PositionLayoutPosition, 3, GL_FLOAT, GL_FALSE, 0);
+    _vao->setAttribBinding(PositionLayoutPosition, 0);
+    _vao->bindVertexBuffer(0, *_vbo, 0, sizeof(glm::vec3));
 
-    glVertexAttribPointer(PositionLayoutPosition, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-    glEnableVertexAttribArray(PositionLayoutPosition);
+    _nbo = BufferObject(
+        sizeof(glm::vec3) * _normals.size(), GL_MAP_WRITE_BIT, _normals.data());
+    _vao->enableVertexArrayAttrib(NormalLayoutPosition);
+    _vao->attribFormat(NormalLayoutPosition, 3, GL_FLOAT, GL_FALSE, 0);
+    _vao->setAttribBinding(NormalLayoutPosition, 1);
+    _vao->bindVertexBuffer(1, *_nbo, 0, sizeof(glm::vec3));
 
-    glGenBuffers(1, &nbo);
-    glBindBuffer(GL_ARRAY_BUFFER, nbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3)*_normals.size(), _normals.data(), GL_STATIC_DRAW);
-
-    glVertexAttribPointer(NormalLayoutPosition, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-    glEnableVertexAttribArray(NormalLayoutPosition);
-
-    glGenBuffers(1, &ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int)*_indices.size(), _indices.data(), GL_STATIC_DRAW);
-
-    glBindVertexArray(0);
+    _ibo = BufferObject(sizeof(unsigned int) * _indices.size(),
+        GL_MAP_WRITE_BIT, _indices.data());
+    _vao->setElementBuffer(*_ibo);
 }
 
 void Primitive::render(Program& program) {
     program.bind();
-    glBindVertexArray(vao);
-    //glDrawArrays(GL_TRIANGLES, 0, 1000);
+    _vao->bind();
+
+    // glDrawArrays(GL_TRIANGLES, 0, 1000);
     glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, (void*)0);
 }

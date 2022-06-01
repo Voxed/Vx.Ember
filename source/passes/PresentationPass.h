@@ -5,36 +5,50 @@
 #ifndef VX_EMBER_PRESENTATIONPASS_H
 #define VX_EMBER_PRESENTATIONPASS_H
 
-#include <GL/glew.h>
-#include "Pass.h"
-#include "Program.h"
 #include "GeometryPass.h"
+#include "Pass.h"
+#include "gl/Program.h"
+#include "gl/Texture.h"
+#include <GL/glew.h>
 
 namespace vx::ember {
 
-    class PresentationPass : public Pass {
-        GLuint quadVao;
-        GLuint quadVbo;
+class PresentationPass : public Pass {
+    GLuint quadVao;
+    GLuint quadVbo;
 
-        std::unique_ptr<Program> _program;
+    std::unique_ptr<Program> _program;
 
-        std::shared_ptr<GeometryPass> _geoPass;
+    std::shared_ptr<GeometryPass> _geoPass;
 
-        GLuint _texture;
+    GLuint _gizmosTexture;
 
-    public:
-        void setTexture(GLuint texture);
+    GLuint _texture;
 
-        void initialize() override;
+    bool _isCubemap = false;
+    bool _useGizmos = false;
+    int _face = 0;
+    int _width;
+    int _height;
 
-        void render(Node &root) override;
+public:
+    void setTexture(GLuint texture);
 
-        void resize(int width, int height) override;
+    void initialize() override;
 
-        void deinitialize() override;
-    };
+    void render(Node& root) override;
+
+    void resize(int width, int height) override;
+
+    void deinitialize() override;
+
+    void setCubemap(bool cubemap);
+    void setFace(int face);
+
+    void setGizmosTexture(GLuint texture);
+    void setGizmos(bool gizmos);
+};
 
 }
 
-
-#endif //VX_EMBER_PRESENTATIONPASS_H
+#endif // VX_EMBER_PRESENTATIONPASS_H

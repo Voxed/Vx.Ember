@@ -9,14 +9,10 @@
 
 using namespace vx::ember;
 
-GeometryNode::GeometryNode(std::shared_ptr<Mesh> mesh, std::string name) : SpatialNode(name), _mesh(std::move(mesh)) {
+GeometryNode::GeometryNode(std::shared_ptr<Mesh> mesh, std::string name)
+    : SpatialNode(name)
+    , _mesh(std::move(mesh)) { }
 
-}
+std::shared_ptr<Mesh> GeometryNode::mesh() { return _mesh; }
 
-std::shared_ptr<Mesh> GeometryNode::mesh() {
-    return _mesh;
-}
-
-void GeometryNode::accept(NodeVisitor &visitor) {
-    visitor.visit(*this);
-}
+void GeometryNode::accept(NodeVisitor& visitor) { visitor.visit(*this); }

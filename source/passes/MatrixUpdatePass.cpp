@@ -8,19 +8,13 @@
 
 using namespace vx::ember;
 
-void vx::ember::MatrixUpdatePass::initialize() {
+void vx::ember::MatrixUpdatePass::initialize() { }
 
-}
-
-void MatrixUpdatePass::render(Node &root) {
+void MatrixUpdatePass::render(Node& root) {
     WorldMatrixUpdateVisitor worldMatrixUpdateVisitor;
     root.accept(worldMatrixUpdateVisitor);
 }
 
-void MatrixUpdatePass::resize(int width, int height) {
+void MatrixUpdatePass::resize(int width, int height) { }
 
-}
-
-void MatrixUpdatePass::deinitialize() {
-
-}
+void MatrixUpdatePass::deinitialize() { }

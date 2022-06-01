@@ -5,38 +5,46 @@
 #ifndef VX_EMBER_PRIMITIVE_H
 #define VX_EMBER_PRIMITIVE_H
 
-#include <vector>
-#include <glm/glm.hpp>
-#include <span>
+#include "gl/BufferObject.h"
+#include "gl/VertexArrayObject.h"
 #include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <memory>
+#include <optional>
+#include <span>
+#include <vector>
 
 namespace vx::ember {
 
-    class Program;
+class Program;
 
-    class Primitive {
-        std::vector<glm::vec3> _vertices;
-        std::vector<glm::vec3> _normals;
-        std::vector<unsigned int> _indices;
+class Primitive {
+    std::vector<glm::vec3> _vertices;
+    std::vector<glm::vec3> _normals;
+    std::vector<unsigned int> _indices;
 
-        GLuint vao;
-        GLuint vbo;
-        GLuint nbo;
-        GLuint ibo;
+    GLuint vao;
+    GLuint nbo;
+    GLuint ibo;
 
-    public:
-        Primitive(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals, std::vector<unsigned int> indices);
+    std::optional<VertexArrayObject> _vao;
+    std::optional<BufferObject> _vbo;
+    std::optional<BufferObject> _nbo;
+    std::optional<BufferObject> _ibo;
 
-        std::span<glm::vec3> vertices();
+public:
+    Primitive(std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals,
+        std::vector<unsigned int> indices);
 
-        std::span<glm::vec3> normals();
+    std::span<glm::vec3> vertices();
 
-        std::span<unsigned int> indices();
+    std::span<glm::vec3> normals();
 
-        void render(Program& program);
-    };
+    std::span<unsigned int> indices();
+
+    void render(Program& program);
+};
 
 }
 
-
-#endif //VX_EMBER_PRIMITIVE_H
+#endif // VX_EMBER_PRIMITIVE_H

@@ -8,10 +8,7 @@
 
 using namespace vx::ember;
 
-Mesh::Mesh(std::vector<std::shared_ptr<Primitive>> primitives) : _primitives(std::move(primitives)) {
+Mesh::Mesh(std::vector<std::shared_ptr<Primitive>> primitives)
+    : _primitives(std::move(primitives)) { }
 
-}
-
-std::span<std::shared_ptr<Primitive>> Mesh::primitives() {
-    return _primitives;
-}
+std::span<std::shared_ptr<Primitive>> Mesh::primitives() { return _primitives; }

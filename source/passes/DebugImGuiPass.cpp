@@ -9,11 +9,9 @@
 
 using namespace vx::ember;
 
-void DebugImGuiPass::initialize() {
+void DebugImGuiPass::initialize() { }
 
-}
-
-void DebugImGuiPass::render(::Node &root) {
+void DebugImGuiPass::render(::Node& root) {
     ImGui::Begin("Vx::Ember Debug");
 
     ImGuiTreeViewVisitor treeViewVisitor;
@@ -23,10 +21,6 @@ void DebugImGuiPass::render(::Node &root) {
     ImGui::End();
 }
 
-void DebugImGuiPass::resize(int width, int height) {
+void DebugImGuiPass::resize(int width, int height) { }
 
-}
-
-void DebugImGuiPass::deinitialize() {
-
-}
+void DebugImGuiPass::deinitialize() { }

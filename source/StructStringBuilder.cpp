@@ -7,7 +7,7 @@
 std::string vx::ember::StructStringBuilder::build() {
     std::string result;
     result += "(" + std::string(_name) + "){\n";
-    for(const auto& field : _fields) {
+    for (const auto& field : _fields) {
         result += "\t" + std::string(field.first) + ": " + field.second + ",\n";
     }
     result += "}\n";

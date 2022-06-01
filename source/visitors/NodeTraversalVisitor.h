@@ -9,17 +9,18 @@
 
 namespace vx::ember {
 
-    class NodeTraversalVisitor : public NodeVisitor {
-    public:
+class NodeTraversalVisitor : public NodeVisitor {
+public:
+    void visit(CameraNode& cameraNode) override;
 
-        void visit(CameraNode &cameraNode) override;
+    void visit(SpatialNode& spatialNode) override;
+    void visit(GeometryNode& geometryNode) override;
 
-        void visit(SpatialNode &spatialNode) override;
-        void visit(GeometryNode &geometryNode) override;
+    void visit(Node& node) override;
 
-        void visit(Node &node) override;
-    };
+    void visit(PointLightNode& pointLightNode) override;
+};
 
 }
 
-#endif //VX_EMBER_NODETRAVERSALVISITOR_H
+#endif // VX_EMBER_NODETRAVERSALVISITOR_H

@@ -7,19 +7,19 @@
 
 namespace vx::ember {
 
-    class Node;
+class Node;
 
-    class Pass {
-    public:
-        virtual void initialize() = 0;
+class Pass {
+public:
+    virtual void initialize() = 0;
 
-        virtual void render(Node& root) = 0;
+    virtual void render(Node& root) = 0;
 
-        virtual void resize(int width, int height) = 0;
+    virtual void resize(int width, int height) = 0;
 
-        virtual void deinitialize() = 0;
-    };
+    virtual void deinitialize() = 0;
+};
 
 }
 
-#endif //VX_EMBER_PASS_H
+#endif // VX_EMBER_PASS_H
