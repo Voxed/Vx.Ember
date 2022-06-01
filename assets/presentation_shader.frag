@@ -42,8 +42,10 @@ void main() {
         COLOR = texture(TEXTURE_CUBEMAP, normalize(uv));
     }
 
+    COLOR = clamp(vec4(0), vec4(1), COLOR);
+
     if (GIZMOS == 1) {
         vec4 gColor = texture(GIZMO_OVERLAY, fTEXCOORD);
-        COLOR = COLOR*(1.0-gColor.a) + gColor;
+        COLOR = vec4((COLOR*(1.0-gColor.a) + gColor*gColor.a).xyz, 1.0);
     }
 }

@@ -16,7 +16,7 @@ SampleBase::SampleBase(int width, int height, const char* name)
     window = glfwCreateWindow(width, height, name, nullptr, nullptr);
     glfwSetWindowUserPointer(window, this);
     glfwMakeContextCurrent(window);
-
+    
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();

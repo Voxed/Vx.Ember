@@ -23,6 +23,6 @@ void main() {
     COLOR = vec4(1.0);
 
     if (gl_FragCoord.z > texture(OCCLUSION_MAP, gl_FragCoord.xy/WINDOW_SIZE).x)
-    discard;
+    COLOR.a = 0.1;
 
 }
