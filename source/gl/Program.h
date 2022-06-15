@@ -6,6 +6,7 @@
 #define VX_EMBER_PROGRAM_H
 
 #include "Shader.h"
+
 #include <glm/matrix.hpp>
 #include <string>
 #include <vector>
@@ -16,11 +17,6 @@ enum LayoutPosition {
     // Attributes
     PositionLayoutPosition = 0,
     NormalLayoutPosition = 1,
-
-    // Uniforms
-    ModelMatrixLayoutPosition = 0,
-    ViewMatrixLayoutPosition = 1,
-    ProjectionMatrixLayoutPosition = 2,
 };
 
 struct MatrixBlock {
@@ -28,24 +24,27 @@ struct MatrixBlock {
     glm::mat4 p;
 };
 
+struct LightBlock {
+    glm::vec3 color;
+    float _dummy0;
+    float intensity;
+};
+
 class Program {
     GLuint _program;
 
+    explicit Program(const std::vector<Shader*>& shaders);
+
 public:
-    explicit Program(std::vector<Shader*> shaders);
+    ~Program();
 
-    void bind();
+    static std::unique_ptr<Program> create(const std::vector<Shader*>& shaders);
 
-    void setUniform(GLint location, glm::mat4 matrix) {
-        glProgramUniformMatrix4fv(
-            _program, location, 1, GL_FALSE, &matrix[0][0]);
-    }
+    void bind() const;
 
-    /*void setModelMatrix(glm::mat4 modelMatrix);
+    void setUniform(GLint location, glm::mat4 matrix) const;
 
-    void setViewMatrix(glm::mat4 viewMatrix);
-
-    void setProjectionMatrix(glm::mat4 projectionMatrix);*/
+    void setUniform(GLint location, glm::vec3 v) const;
 };
 
 }

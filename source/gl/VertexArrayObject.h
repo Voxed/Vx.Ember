@@ -6,40 +6,31 @@
 #define VX_EMBER_VERTEXARRAYOBJECT_H
 
 #include "BufferObject.h"
+
 #include <GL/glew.h>
 
 namespace vx::ember {
 
 class VertexArrayObject {
+    VertexArrayObject();
 
 public:
-    VertexArrayObject() { glCreateVertexArrays(1, &_index); }
+    ~VertexArrayObject();
 
-    void enableVertexArrayAttrib(GLuint location) const {
-        glEnableVertexArrayAttrib(_index, location);
-    }
+    static std::unique_ptr<VertexArrayObject> create();
 
-    void attribFormat(GLuint location, GLint count, GLenum type,
-        GLboolean normalized, GLuint offset) const {
-        glVertexArrayAttribFormat(
-            _index, location, count, type, normalized, offset);
-    }
+    void enableVertexArrayAttrib(GLuint location) const;
 
-    void setAttribBinding(GLuint location, GLuint binding) const {
-        glVertexArrayAttribBinding(_index, location, binding);
-    }
+    void attribFormat(GLuint location, GLint count, GLenum type, GLboolean normalized, GLuint offset) const;
 
-    void bindVertexBuffer(GLuint binding, BufferObject& bufferObject,
-        GLintptr offset, GLsizei stride) const {
-        glVertexArrayVertexBuffer(
-            _index, binding, bufferObject._index, offset, stride);
-    }
+    void setAttribBinding(GLuint location, GLuint binding) const;
 
-    void bind() const { glBindVertexArray(_index); }
+    void bindVertexBuffer(GLuint binding, BufferObject& bufferObject, GLintptr offset, GLsizei stride) const;
 
-    void setElementBuffer(BufferObject& bufferObject) const {
-        glVertexArrayElementBuffer(_index, bufferObject._index);
-    }
+    void bind() const;
+
+    void setElementBuffer(BufferObject& bufferObject) const;
+
     GLuint _index = 0;
 };
 

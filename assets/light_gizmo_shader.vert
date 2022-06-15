@@ -17,7 +17,7 @@ out vec3 fVIEW_POS;
 
 void main() {
 
-    float size = 0.5;
+    float size = 0.25;
 
     gl_Position = PROJECTION_MATRIX * VIEW_MATRIX * MODEL_MATRIX * vec4(POSITION*size, 1.0);
     fNORMAL = (inverse(transpose(MODEL_MATRIX)) * vec4(NORMAL, 1.0)).xyz;

@@ -5,7 +5,8 @@
 #ifndef VX_EMBER_OBJLOADER_H
 #define VX_EMBER_OBJLOADER_H
 
-#include "Mesh.h"
+#include "core/Mesh.h"
+
 #include <filesystem>
 
 namespace vx::ember {

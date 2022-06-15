@@ -6,6 +6,7 @@
 #define VX_EMBER_SHADER_H
 
 #include <GL/glew.h>
+#include <memory>
 #include <string>
 
 namespace vx::ember {
@@ -15,8 +16,12 @@ class Program;
 class Shader {
     GLuint _index;
 
+    Shader(const std::string& name, GLenum type, const std::string& source);
+
 public:
-    Shader(std::string name, GLenum type, std::string source);
+    ~Shader();
+
+    static std::unique_ptr<Shader> create(const std::string& name, GLenum type, const std::string& source);
 
     friend Program;
 };

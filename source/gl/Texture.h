@@ -5,23 +5,42 @@
 #ifndef VX_EMBER_TEXTURE_H
 #define VX_EMBER_TEXTURE_H
 
+#include "core/Image.h"
 #include <GL/glew.h>
+#include <algorithm>
+#include <memory>
+
 namespace vx::ember {
 
 class Framebuffer;
 
 class Texture {
-
-public:
     GLuint _index;
 
-    Texture(GLenum target, int width, int height, GLint minFilter,
-        GLint magFilter, GLenum internalFormat, int levels) {
-        glCreateTextures(target, 1, &_index);
-        glTextureParameteri(_index, GL_TEXTURE_MIN_FILTER, minFilter);
-        glTextureParameteri(_index, GL_TEXTURE_MAG_FILTER, magFilter);
-        glTextureStorage2D(_index, levels, internalFormat, width, height);
-    }
+    explicit Texture(GLenum target, GLint minFilter = -1, GLint magFilter = -1, GLint wrapS = -1, GLint wrapT = -1);
+
+public:
+    ~Texture();
+
+    static std::unique_ptr<Texture> create(GLenum target, int width, int height, GLenum internalFormat, int levels,
+        GLint minFilter = -1, GLint magFilter = -1, GLint wrapS = -1, GLint wrapT = -1);
+
+    static std::unique_ptr<Texture> createMultisampled(GLenum target, int width, int height, GLenum internalFormat,
+        GLsizei samples, GLint minFilter = -1, GLint magFilter = -1, GLint wrapS = -1, GLint wrapT = -1);
+
+    static std::unique_ptr<Texture> create3D(GLenum target, int width, int height, int depth, GLenum internalFormat,
+        GLsizei levels, GLint minFilter = -1, GLint magFilter = -1, GLint wrapS = -1, GLint wrapT = -1);
+
+    static std::unique_ptr<Texture> createMultisampled3D(GLenum target, int width, int height, int depth,
+        GLenum internalFormat, GLsizei samples, GLint minFilter = -1, GLint magFilter = -1, GLint wrapS = -1,
+        GLint wrapT = -1);
+
+    void setParameter(GLenum, GLint) const;
+    void setParameterf(GLenum, GLfloat) const;
+
+    void generateMipmaps() const;
+
+    void subImage2D(const Image& image, GLint level = 0, GLint xoffset = 0, GLint yoffset = 0) const;
 
     void bind(GLuint unit) const;
 

@@ -6,17 +6,21 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 #include <cstdio>
+#include <spdlog/spdlog.h>
 
 SampleBase::SampleBase(int width, int height, const char* name)
     : _width(width)
     , _height(height) {
+    spdlog::set_level(spdlog::level::debug);
+
     glfwInit();
 
     window = glfwCreateWindow(width, height, name, nullptr, nullptr);
     glfwSetWindowUserPointer(window, this);
     glfwMakeContextCurrent(window);
-    
+
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
@@ -30,15 +34,13 @@ SampleBase::SampleBase(int width, int height, const char* name)
 
     glfwSwapInterval(1);
 
-    glfwSetWindowSizeCallback(
-        window, [](GLFWwindow* window, int width, int height) {
-            glViewport(0, 0, width, height);
-            auto* sampleBase
-                = static_cast<SampleBase*>(glfwGetWindowUserPointer(window));
-            sampleBase->_height = height;
-            sampleBase->_width = width;
-            sampleBase->resize(width, height);
-        });
+    glfwSetWindowSizeCallback(window, [](GLFWwindow* window, int width, int height) {
+        glViewport(0, 0, width, height);
+        auto* sampleBase = static_cast<SampleBase*>(glfwGetWindowUserPointer(window));
+        sampleBase->_height = height;
+        sampleBase->_width = width;
+        sampleBase->resize(width, height);
+    });
 }
 
 void SampleBase::exit() { _running = false; }
@@ -62,6 +64,9 @@ void SampleBase::start() {
 
         glfwSwapBuffers(window);
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
 
     deinitialize();
 

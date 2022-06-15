@@ -3,11 +3,10 @@
 //
 
 #include "Program.h"
-#include <glm/ext.hpp>
 
 using namespace vx::ember;
 
-Program::Program(std::vector<Shader*> shaders) {
+Program::Program(const std::vector<Shader*>& shaders) {
     _program = glCreateProgram();
     for (const auto& shader : shaders) {
         glAttachShader(_program, shader->_index);
@@ -24,4 +23,16 @@ Program::Program(std::vector<Shader*> shaders) {
     }
 }
 
-void Program::bind() { glUseProgram(_program); }
+void Program::bind() const { glUseProgram(_program); }
+
+std::unique_ptr<Program> Program::create(const std::vector<Shader*>& shaders) {
+    return std::unique_ptr<Program>(new Program(shaders));
+}
+
+Program::~Program() { glDeleteProgram(_program); }
+
+void Program::setUniform(GLint location, glm::mat4 matrix) const {
+    glProgramUniformMatrix4fv(_program, location, 1, GL_FALSE, &matrix[0][0]);
+}
+
+void Program::setUniform(GLint location, glm::vec3 v) const { glProgramUniform3fv(_program, location, 1, (float*)&v); }

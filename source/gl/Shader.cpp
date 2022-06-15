@@ -3,7 +3,8 @@
 //
 
 #include "Shader.h"
-#include "exceptions.h"
+
+#include "core/exceptions.h"
 
 using namespace vx::ember;
 
@@ -20,7 +21,7 @@ static std::string shaderTypeString(GLenum type) {
     }
 }
 
-Shader::Shader(std::string name, GLenum type, std::string source) {
+Shader::Shader(const std::string& name, GLenum type, const std::string& source) {
     _index = glCreateShader(type);
     const char* src = source.c_str();
     glShaderSource(_index, 1, &src, nullptr);
@@ -35,3 +36,8 @@ Shader::Shader(std::string name, GLenum type, std::string source) {
         throw ShaderCompileException(shaderTypeString(type), name, log);
     }
 }
+std::unique_ptr<Shader> Shader::create(const std::string& name, GLenum type, const std::string& source) {
+    return std::unique_ptr<Shader>(new Shader(name, type, source));
+}
+
+Shader::~Shader() { glDeleteShader(_index); }

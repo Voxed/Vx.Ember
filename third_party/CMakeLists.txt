@@ -1,6 +1,6 @@
 add_subdirectory(obj_loader)
 
-add_library(imgui)
+add_library(imgui stb/stb_image.cpp)
 target_sources(imgui PRIVATE
         imgui/imgui.cpp
         imgui/imgui_demo.cpp
@@ -19,4 +19,5 @@ target_link_libraries(imgui_glfw imgui)
 
 target_include_directories(imgui_glfw PUBLIC imgui/backends)
 
+add_subdirectory(stb)
 add_subdirectory(tinygltf)
