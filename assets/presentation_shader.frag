@@ -13,7 +13,7 @@ layout(location = 0) out vec4 COLOR;
 layout(binding = 0) uniform sampler2DMS TEXTURE;
 layout(binding = 1) uniform samplerCube TEXTURE_CUBEMAP;
 
-layout(binding = 2) uniform sampler2DMS GIZMO_OVERLAY;
+layout(binding = 2) uniform sampler2D GIZMO_OVERLAY;
 layout(binding = 3) uniform sampler2DMSArray TEXTURE_ARRAY;
 
 in vec2 fTEXCOORD;
@@ -22,6 +22,14 @@ in vec2 fTEXCOORD;
 ivec2 texCoords(sampler2DMS sampler, vec2 uv)
 {
     ivec2 texSize = textureSize(sampler);
+    ivec2 texCoord = ivec2(uv * texSize);
+
+    return texCoord;
+}
+
+ivec2 texCoords(sampler2D sampler, vec2 uv)
+{
+    ivec2 texSize = textureSize(sampler, 0);
     ivec2 texCoord = ivec2(uv * texSize);
 
     return texCoord;
@@ -99,8 +107,8 @@ void main() {
 
     COLOR = clamp(vec4(0), vec4(1), COLOR);
 
-    /*if (GIZMOS == 1) {
+    if (GIZMOS == 1) {
         vec4 gColor = texelFetch(GIZMO_OVERLAY, texCoords(GIZMO_OVERLAY, fTEXCOORD), 0);
         COLOR = vec4((COLOR*(1.0-gColor.a) + gColor*gColor.a).xyz, 1.0);
-    }*/
+    }
 }

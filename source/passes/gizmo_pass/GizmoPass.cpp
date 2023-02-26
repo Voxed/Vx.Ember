@@ -30,6 +30,8 @@ void GizmoPass::initialize() {
     matrixUBO = BufferObject::create(sizeof(MatrixBlock), GL_MAP_WRITE_BIT);
 
     _sphereMesh = OBJLoader("assets/sphere.obj").mesh();
+
+    _fb = Framebuffer::create();
 }
 
 void GizmoPass::render(Node& root) {
@@ -80,7 +82,6 @@ std::unique_ptr<Texture>& GizmoPass::texture() { return _gizmoColorBuffer; }
 GizmoPass::GizmoPass(RSMCache& rsmCache, std::unique_ptr<Texture>& occluderDepthBuffer)
     : _rsmCache(&rsmCache)
     , _occluderDepthBuffer(&occluderDepthBuffer)
-    , _fb(Framebuffer::create())
     , _width(0)
     , _height(0)
     , _bufferType(NORMAL_BUFFER) { }

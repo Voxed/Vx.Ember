@@ -102,7 +102,7 @@ void LightPass::resize(int width, int height) {
 
     // TODO: Not 16, duh. dynamic?
     // TODO: > 16 crashes program? Whoops :/ (16*8 samples too much?)
-    _msLightMaps = Texture::createMultisampled3D(GL_TEXTURE_2D_MULTISAMPLE_ARRAY, width, height, 16, GL_RGBA32F, 8);
+    _msLightMaps = Texture::createMultisampled3D(GL_TEXTURE_2D_MULTISAMPLE_ARRAY, width, height, 8, GL_RGBA32F, 8);
     //_msFramebuffer->bindTexture(*_msLightMaps, GL_COLOR_ATTACHMENT0, 0);
 
     //_lightMaps = Texture::create3D(GL_TEXTURE_2D_ARRAY, width, height, 32, GL_RGBA16F, 1);
